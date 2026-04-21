@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Security",
   description:
-    "Security and file-handling details for the current AuraLaw AI upload and scan workflow.",
+    "Security and file-handling details for the AuraLaw AI document review workflow.",
 };
 
 const securityPrinciples = [
@@ -29,7 +29,7 @@ const deploymentOptions = [
   "Browser upload for supported file types",
   "Server-side text extraction during scan requests",
   "JSON audit export and redacted text export",
-  "No persistent document storage in this repository",
+  "Temporary processing with no retained document storage by default",
 ];
 
 export default function SecurityPage() {
@@ -38,12 +38,11 @@ export default function SecurityPage() {
       <div className="max-w-3xl">
         <p className="eyebrow">Security</p>
         <h1 className="mt-6 font-display text-[2.95rem] leading-[0.96] text-ink sm:text-5xl lg:text-6xl">
-          How the current build handles uploaded files.
+          How AuraLaw handles uploaded files.
         </h1>
         <p className="mt-6 text-base leading-7 text-ink-soft sm:text-lg sm:leading-8">
-          This page describes the current implementation in the repository. It
-          focuses on upload handling, scan output, and export behavior rather
-          than broad deployment assumptions.
+          This page explains upload handling, scan output, and export behavior
+          for the live document review workflow.
         </p>
       </div>
 
@@ -60,7 +59,7 @@ export default function SecurityPage() {
 
       <div className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <article className="surface-panel p-7 sm:p-8">
-          <p className="eyebrow">Current Workflow</p>
+          <p className="eyebrow">Workflow</p>
           <ul className="mt-6 space-y-4">
             {deploymentOptions.map((item) => (
               <li key={item} className="flex gap-3 text-sm leading-7 text-ink-soft">
@@ -71,16 +70,16 @@ export default function SecurityPage() {
           </ul>
         </article>
         <article className="surface-panel p-7 sm:p-8">
-          <p className="eyebrow">Deployment Notes</p>
+          <p className="eyebrow">Architecture Notes</p>
           <div className="mt-6 space-y-5 text-sm leading-7 text-ink-soft">
             <p>
-              If you extend this build beyond local uploads, the next hardening
-              steps are authentication, access control, OCR for image-based PDFs,
+              For enterprise deployments, the next security layers typically
+              include authentication, access control, OCR for image-based PDFs,
               and managed storage for retained documents.
             </p>
             <p>
-              The current implementation is best suited to direct browser uploads
-              and immediate export rather than long-term retained review queues.
+              This experience is optimized for direct browser uploads and
+              immediate redaction and export workflows.
             </p>
           </div>
         </article>
@@ -93,8 +92,7 @@ export default function SecurityPage() {
               Continue
             </p>
             <h2 className="mt-4 font-display text-[2rem] leading-tight sm:text-4xl">
-              Return to the upload workflow or review how the current build
-              handles privacy and retention.
+              Return to the upload flow or review privacy and retention.
             </h2>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">

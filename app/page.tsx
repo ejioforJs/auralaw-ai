@@ -69,19 +69,19 @@ const capabilityCards = [
 const trustPillars = [
   "Text-based PDFs and DOCX files are handled directly from the upload surface.",
   "Results stay transparent: extracted text, findings, and redacted output are all visible in the same flow.",
-  "Dedicated security and privacy pages document the current implementation behavior.",
+  "Security and privacy pages outline file handling, exports, and retention clearly.",
 ];
 
 const faqItems = [
   {
     question: "Which files can I upload right now?",
     answer:
-      "This build supports PDFs, DOCX, TXT, CSV, JSON, HTML, and RTF files from the main upload interface.",
+      "AuraLaw supports PDFs, DOCX, TXT, CSV, JSON, HTML, and RTF files from the main upload interface.",
   },
   {
     question: "What does Aura-Engine detect?",
     answer:
-      "It currently checks for common PII patterns, sensitive clause indicators such as indemnity or cross-border transfer language, and compliance references such as NDPR or GDPR.",
+      "Aura-Engine checks for common PII patterns, sensitive clause indicators such as indemnity or cross-border transfer language, and compliance references such as NDPR or GDPR.",
   },
   {
     question: "How are files handled during processing?",
@@ -362,7 +362,7 @@ export default function Home() {
               <SectionHeading
                 eyebrow="Founder & Company"
                 title="The platform is led by Oghenekevwe Onosemuode and anchored in Lagos."
-                description="This section keeps the company profile, founder reference, and office address easy to find from the main site."
+                description="Leadership, company profile, and location at a glance."
               />
               <div className="mt-12 grid gap-5 xl:grid-cols-2">
                 <article className="surface-panel p-6">
@@ -444,8 +444,8 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 lg:px-8">
           <SectionHeading
             eyebrow="FAQ"
-            title="Short answers about the current upload, scan, and export flow."
-            description="These answers stay aligned to the features implemented in this repository."
+            title="Answers about uploads, scanning, and exports."
+            description="Everything here reflects the workflow available on the site."
           />
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
             {faqItems.map((item) => (

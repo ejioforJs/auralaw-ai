@@ -4,13 +4,13 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy",
   description:
-    "Privacy details for how the current AuraLaw AI build processes uploaded files.",
+    "Privacy details for how AuraLaw AI processes uploaded files.",
 };
 
 const privacySections = [
   {
     title: "What is processed",
-    body: "The current build processes supported uploads such as PDF, DOCX, TXT, CSV, JSON, HTML, and RTF files submitted through the browser.",
+    body: "AuraLaw processes supported uploads such as PDF, DOCX, TXT, CSV, JSON, HTML, and RTF files submitted through the browser.",
   },
   {
     title: "How files are handled",
@@ -18,7 +18,7 @@ const privacySections = [
   },
   {
     title: "What is retained",
-    body: "This repository does not persist uploaded documents to a database. Temporary files created for extraction are removed after processing completes.",
+    body: "Uploaded documents are not persisted to a database in this experience. Temporary files created for extraction are removed after processing completes.",
   },
 ];
 
@@ -28,11 +28,11 @@ export default function PrivacyPage() {
       <div className="max-w-3xl">
         <p className="eyebrow">Privacy</p>
         <h1 className="mt-6 font-display text-[2.95rem] leading-[0.96] text-ink sm:text-5xl lg:text-6xl">
-          Privacy details for the current upload flow.
+          Privacy details for uploads and document processing.
         </h1>
         <p className="mt-6 text-base leading-7 text-ink-soft sm:text-lg sm:leading-8">
-          This page describes what the application does with uploaded files in
-          its current implementation.
+          This page explains how AuraLaw handles uploaded files across scanning,
+          review, and export.
         </p>
       </div>
 
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
           <p>
             Redacted output and audit data are generated for download in the
             browser after a successful scan. The exported files reflect the
-            current result set shown in the interface.
+            reviewed result set shown in the interface.
           </p>
           <p>
             If you need persistent retention, access logging, or policy-driven
