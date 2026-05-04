@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from "docx";
 import type { ScanFinding, ScanResponse, FindingKind } from "@/lib/document-scan";
 
-type Stage = "idle" | "uploading" | "scanning" | "reviewed" | "redacted";
+type Stage = "idle" | "uploading" | "deep_reading" | "scanning" | "reviewed" | "redacted";
 type TabId = "all" | FindingKind | "recommendations";
 
 const STAGE_LABELS: Record<Exclude<Stage, "idle">, string[]> = {
@@ -12,6 +12,11 @@ const STAGE_LABELS: Record<Exclude<Stage, "idle">, string[]> = {
     "Normalizing uploads",
     "Checking file types and page volume",
     "Preparing the review workspace",
+  ],
+  deep_reading: [
+    "Preloading document contents",
+    "Running deep contextual analysis",
+    "Understanding partnership and party dynamics",
   ],
   scanning: [
     "Extracting contract metadata & parties",
@@ -112,8 +117,13 @@ export function UploadWorkbench() {
     setStage("uploading");
     setActiveTab("all");
 
-    await new Promise((resolve) => window.setTimeout(resolve, 550));
+    await new Promise((resolve) => window.setTimeout(resolve, 800));
+    setStage("deep_reading");
+
+    await new Promise((resolve) => window.setTimeout(resolve, 1500));
     setStage("scanning");
+
+    await new Promise((resolve) => window.setTimeout(resolve, 1200));
 
     try {
       const response = await fetch("/api/scan", { method: "POST", body });
@@ -399,8 +409,8 @@ export function UploadWorkbench() {
   }
 
   const activeDocument = scanResult?.documents.find((d) => d.id === activeDocumentId) ?? scanResult?.documents[0] ?? null;
-  const isBusy = stage === "uploading" || stage === "scanning";
-  const stageLabel = stage === "idle" ? "Ready" : stage === "uploading" ? "Uploading" : stage === "scanning" ? "Engine Running" : stage === "reviewed" ? "Review Complete" : "Redacted";
+  const isBusy = stage === "uploading" || stage === "deep_reading" || stage === "scanning";
+  const stageLabel = stage === "idle" ? "Ready" : stage === "uploading" ? "Uploading" : stage === "deep_reading" ? "Deep Reading" : stage === "scanning" ? "Engine Running" : stage === "reviewed" ? "Review Complete" : "Redacted";
 
   const displayedFindings = activeDocument?.findings.filter((f) => activeTab === "all" || f.kind === activeTab) ?? [];
 

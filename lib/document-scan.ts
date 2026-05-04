@@ -277,21 +277,40 @@ function extractEffectiveDate(text: string): string | null {
 }
 
 function extractGoverningLaw(text: string): string | null {
-  const match = text.match(/governed by (?:and construed in accordance with )?the laws of\s+([A-Z][A-Za-z\s]{3,30})/i);
-  return match && match[1] ? match[1].trim() : null;
+  const match = text.match(/(?:governed by|subject to)(?: and construed in accordance with)? the laws of\s+([A-Z][A-Za-z\s]{3,30})|governing law[:\s-]+([A-Z][A-Za-z\s]{3,30})|jurisdiction[:\s-]+([A-Z][A-Za-z\s]{3,30})/i);
+  if (match) {
+    return (match[1] || match[2] || match[3]).trim();
+  }
+  return null;
 }
 
 function extractParties(text: string): string[] {
   const preamble = text.slice(0, 3000).replace(/\s+/g, " ");
-  const parties: string[] = [];
-  const regex = /(?:between|among|by and between)\s+([A-Z][A-Za-z0-9\s.,&'()-]{3,80}?)(?:\s+and\s+|\s*,\s*and\s*)([A-Z][A-Za-z0-9\s.,&'()-]{3,80}?)(?:\s*(?:\(|are\s+the|hereby|agree|dated|effective|,\s*a))/gi;
+  let parties: string[] = [];
   
+  // Primary Heuristic: "between X and Y"
+  const regex = /(?:between|among|by and between)\s+([A-Z][A-Za-z0-9\s.,&'()-]{3,80}?)(?:\s+and\s+|\s*,\s*and\s*)([A-Z][A-Za-z0-9\s.,&'()-]{3,80}?)(?:\s*(?:\(|are\s+the|hereby|agree|dated|effective|,\s*a))/gi;
   const match = regex.exec(preamble);
   if (match) {
     if (match[1]) parties.push(match[1].trim().replace(/^(the|a|an)\s+/i, ""));
     if (match[2]) parties.push(match[2].trim().replace(/^(the|a|an)\s+/i, ""));
+    return parties;
   }
-  return parties;
+
+  // Secondary Heuristic: Look for defined entities before "hereinafter" or "('..."
+  const secondaryRegex = /([A-Z][A-Za-z0-9\s.,&'()-]{3,80}?)(?:,\s*a\s+[A-Za-z\s]+\s+(?:corporation|LLC|company|partnership)|(?:\s*\(.*\))?\s*\(\s*"(?:the\s+)?[A-Z][A-Za-z\s]+"\s*\)|(?:\s*\(.*\))?\s*hereinafter)/g;
+  
+  let secMatch;
+  let count = 0;
+  while ((secMatch = secondaryRegex.exec(preamble)) !== null && count < 4) {
+    const p = secMatch[1].trim().replace(/^(the|a|an|and)\s+/i, "");
+    if (p.length > 3 && !p.toLowerCase().includes("agreement") && !p.toLowerCase().includes("effective")) {
+      parties.push(p);
+      count++;
+    }
+  }
+  
+  return [...new Set(parties)];
 }
 
 /* ── Helpers ── */
